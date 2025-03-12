@@ -20,6 +20,7 @@
                                 <th>Product Name</th>
                                 <th>Category</th>
                                 <th>Price</th>
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -29,6 +30,7 @@
                                     <td><img src="{{asset('uploads/products/'.$item->image)}}" style="max-height: 5em; max-width: 5em;" alt=""> {{$item->product_name}}</td>
                                     <td>{{$item->category}}</td>
                                     <td>{{$item->price}}</td>
+                                    <td>{{$item->status ? 'Aktif' : 'Non-Aktif'}}</td>
                                     <td>
                                         <a href="#editData{{$item->id}}" class="btn btn-secondary" data-toggle="modal"><i class="fas fa-edit"></i> Edit</a>
                                         <a href="#deleteData{{$item->id}}" class="btn btn-danger" data-toggle="modal"><i class="fas fa-trash"></i> Delete</a>
@@ -50,6 +52,69 @@
                                                     <input type="submit" class="btn btn-danger" value="Delete">
                                                 </div>
                                             </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal fade" id="editData{{$item->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h5 class="modal-title" id="exampleModalLabel">Tambah Data Produk</h5>
+                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                          </button>
+                                        </div>
+                                        <form action="/umkm/product/{{$item->id}}" method="post" enctype="multipart/form-data">
+                                            @method('put')
+                                            @csrf
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label for="name">Name</label>
+                                                    <input type="text" name="name" value="{{$item->product_name}}" class="form-control" id="name" placeholder="Nama Produk" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="category">Category</label>
+                                                    <select name="category" id="category" class="form-control" required>
+                                                        @foreach ($category as $ctg)
+                                                            <option value="{{$ctg->name}}" {{ $ctg->name == $item->category ? 'selected' : ''}}>{{$ctg->name}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="description">Description</label>
+                                                    <textarea name="description" id="description" cols="30" rows="10" class="form-control">{{$item->description}}</textarea>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="address">Price</label>
+                                                    <input type="text" name="price" value="{{$item->price}}" class="form-control" id="address" placeholder="Price" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="discount">Dicsount</label>
+                                                    <div class="input-group">
+                                                        <input type="text" name="discount" value="{{$item->discount}}" class="form-control" id="discount" placeholder="Discount">
+                                                        <div class="input-group-append">
+                                                            <div class="input-group-text">%</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="image">Image</label>
+                                                    <input type="file" name="image" accept="image/*" class="form-control" id="image" placeholder="Image">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="status">Status</label>
+                                                    <select name="status" class="custom-select" id="status">
+                                                        <option value="1" {{$item->status ? 'selected' : ''}}>Aktif</option>
+                                                        <option value="0" {{!$item->status ? 'selected' : ''}}>Non-Aktif</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                              <button type="submit" class="btn btn-primary">Submit</button>
+                                            </div>
+                            
+                                        </form>
                                         </div>
                                     </div>
                                 </div>

@@ -159,7 +159,7 @@
             @foreach($product as $i)
             <div class="col-md-3 product-item" data-category="{{ $i->category }}" data-price="{{ $i->price - ($i->price * ($i->discount / 100)) }}">
                 <div class="product-card">
-                    <a href="/produk/{{ $i }}" class="text-decoration-none text-dark">
+                    <a href="/produk/{{ $i->id }}" class="text-decoration-none text-dark">
                         <img style="max-height: 10em;" src="{{ asset('uploads/products/'.$i->image) }}" alt="">
                         <h5 class="mt-3">Produk {{ $i->product_name }}</h5>
                         <p>Rp {{ number_format($i->price - ($i->price * ($i->discount / 100)), 0, ',', '.') }}</p>
@@ -202,7 +202,7 @@
                     <p class="text-muted">Toko: {{ $promo->product->umkm->umkm_name }}</p>
                     <p class="card-text">{{$promo->ad_content}}</p>
                     <p><small>Valid until: {{ $promo->end_date }}</small></p>
-                    <a href="/produk/{{ $promo['id'] }}?nama={{ urlencode($promo['nama']) }}&toko={{ urlencode($promo['toko']) }}&diskon={{ $promo['diskon'] }}" class="btn btn-success">Lihat Detail</a>
+                    <a href="/produk/{{$promo->product->id}}" class="btn btn-success">Lihat Detail</a>
                 </div>
                 <img src="{{ asset('uploads/ads/'.$promo->ad_image) }}" class="rounded ms-3" width="100" height="100" alt="Produk {{ $promo['id'] }}">
             </div>

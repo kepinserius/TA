@@ -3,15 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Product;
 
 class ProdukController extends Controller
 {
     /**
      * Menampilkan daftar produk.
      */
-    public function index()
+    public function index($id)
     {
-        return view('produkdetail');
+        $data = Product::where('id', $id)->first();
+        return view('produkdetail', ['data' => $data]);
     }
 
     /**
@@ -19,6 +21,6 @@ class ProdukController extends Controller
      */
     public function show($id)
     {
-        return view('produk-detail');
+        
     }
 }

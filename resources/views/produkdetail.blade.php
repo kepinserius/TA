@@ -24,20 +24,20 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
             <!-- Foto Produk -->
             <div>
-                <img id="product-image" src="https://via.placeholder.com/300" class="w-full rounded-lg shadow-md">
+                <img id="product-image" src="{{asset('uploads/products/'.$data->image)}}" class="w-full rounded-lg shadow-md">
             </div>
 
             <!-- Detail Produk -->
             <div>
-                <h2 id="product-name" class="text-2xl font-bold text-gray-800">Nama Produk</h2>
-                <p id="product-price" class="text-green-500 text-xl font-bold mt-2">Rp0</p>
+                <h2 id="product-name" class="text-2xl font-bold text-gray-800">{{$data->product_name}}</h2>
+                <p id="product-price" class="text-green-500 text-xl font-bold mt-2">Rp {{(int) $data->price}}</p>
 
                 <!-- Stok -->
                 <p id="product-stock" class="text-gray-600 mt-2">Stok: <span class="text-green-600">Tersedia</span></p>
 
                 <!-- Deskripsi -->
                 <p id="product-description" class="text-gray-600 mt-4">
-                    Deskripsi produk akan ditampilkan di sini.
+                    {{$data->description}}
                 </p>
 
                 <!-- Tombol Tambah ke Keranjang -->
@@ -65,13 +65,9 @@
         };
 
         // Load data produk ke halaman
-        document.getElementById("product-name").innerText = product.name;
-        document.getElementById("product-price").innerText = `Rp${product.price.toLocaleString()}`;
         document.getElementById("product-stock").innerHTML = product.stock > 0
             ? `<span class="text-green-600">${product.stock} tersedia</span>`
             : `<span class="text-red-600">Habis</span>`;
-        document.getElementById("product-description").innerText = product.description;
-        document.getElementById("product-image").src = product.image;
 
         // Fungsi Tambah ke Keranjang (Dummy)
         function addToCart() {

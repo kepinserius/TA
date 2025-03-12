@@ -20,6 +20,7 @@ return new class extends Migration
             $table->decimal('discount', total: 4, places: 2)->nullable();
             $table->string('image');
             $table->text('description')->nullable();
+            $table->boolean('status')->default(true);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'))->nullable();
 

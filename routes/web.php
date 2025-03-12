@@ -68,10 +68,14 @@ Route::prefix('/umkm')->group(function() {
     Route::prefix('/product')->group(function() {
         Route::get('/', [UmkmProductController::class, 'index']);
         Route::post('/', [UmkmProductController::class, 'store']);
+        Route::put('/{id}', [UmkmProductController::class, 'update']);
+        Route::get('/{id}', [UmkmProductController::class, 'destroy']);
     });
     Route::prefix('/ads')->group(function() {
         Route::get('/', [AdsUmkmController::class, 'index']);
         Route::post('/', [AdsUmkmController::class, 'store']);
+        Route::put('/{id}', [AdsUmkmController::class, 'update']);
+        Route::get('/{id}', [AdsUmkmController::class, 'destroy']);
     });
 });
 
@@ -92,6 +96,6 @@ Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index
 Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
 
 // Halaman daftar produk
-Route::get('/produk', [ProdukController::class, 'index'])->name('products.index');
+Route::get('/produk/{id}', [ProdukController::class, 'index'])->name('products.index');
 // Halaman detail produk
-Route::get('/produk/{id}', [ProdukController::class, 'show'])->name('product.detail');
+// Route::get('/produk/{id}', [ProdukController::class, 'show'])->name('product.detail');
