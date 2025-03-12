@@ -11,11 +11,19 @@ class HomeController extends Controller
 {
     public function index() {
         // dd(session());
-        return view('index', [
-            'product' => Product::get(), 
-            'category' => Category::get(), 
-            'ads' => Ads::with(['product'])->get(),
-            'umkm' => Umkm::where('user_id', session('user')['id'])->first()
-        ]);
+        if (session()->has('user')) {
+            return view('index', [
+                'product' => Product::get(), 
+                'category' => Category::get(), 
+                'ads' => Ads::with(['product'])->get(),
+                'umkm' => Umkm::where('user_id', session('user')['id'])->first()
+            ]);
+        } else {
+            return view('index', [
+                'product' => Product::get(), 
+                'category' => Category::get(), 
+                'ads' => Ads::with(['product'])->get(),
+            ]);
+        }
     }
 }

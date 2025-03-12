@@ -16,6 +16,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SignUpUmkmController;
 use App\Http\Controllers\UmkmProfileController;
 use App\Http\Controllers\UmkmProductController;
+use App\Http\Controllers\AdsUmkmController;
 
 Route::prefix('/admin')->group(function() {
     Route::prefix('/user')->group(function(){
@@ -68,12 +69,17 @@ Route::prefix('/umkm')->group(function() {
         Route::get('/', [UmkmProductController::class, 'index']);
         Route::post('/', [UmkmProductController::class, 'store']);
     });
+    Route::prefix('/ads')->group(function() {
+        Route::get('/', [AdsUmkmController::class, 'index']);
+        Route::post('/', [AdsUmkmController::class, 'store']);
+    });
 });
 
 Route::get('/', [HomeController::class, 'index']);
 
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
+Route::get('/logout', [LoginController::class, 'logout']);
 
 Route::get('/signup', [SignupController::class, 'showSignupForm'])->name('signup');
 Route::post('/signup', [SignupController::class, 'signup']);

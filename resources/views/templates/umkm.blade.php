@@ -92,9 +92,16 @@
             </div>
 
             <li class="nav-item">
-                <a class="nav-link" href="/admin/products">
+                <a class="nav-link" href="/umkm/orders">
                     <i class="fas fa-box-open"></i>
                     <span>Orders</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/umkm/payments">
+                    <i class="fas fa-box-open"></i>
+                    <span>Payments</span>
                 </a>
             </li>
 

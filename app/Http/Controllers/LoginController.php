@@ -32,11 +32,11 @@ class LoginController extends Controller
             return redirect()->back()->with('error', 'username yang anda masukkan salah');
         } else {
             $this->createSession($request, $validate['data']);
-            if ($validate['data']['role'] === 'umkm') {
+            if ($validate['data']['role'] === 'user' || $validate['data']['role'] === 'umkm') {
                 return password_verify($request->password, $validate['data']['password'])
                     ? redirect('/')
                     : redirect()->back()->with('error', 'password yang anda masukkan salah');
-            } else {
+                } else {
                 return password_verify($request->password, $validate['data']['password'])
                     ? redirect('/admin')
                     : redirect()->back()->with('error', 'password yang anda masukkan salah');
@@ -61,6 +61,6 @@ class LoginController extends Controller
         if (session()->has('user')) {
             session()->pull('user');
         }
-        return redirect('/');
+        return redirect('/login');
     }
 }

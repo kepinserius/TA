@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('ads', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('umkm_id');
             $table->unsignedBigInteger('product_id');
             $table->string('ad_image');
             $table->string('ad_title');
@@ -24,6 +25,7 @@ return new class extends Migration
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'))->nullable();
 
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+            $table->foreign('umkm_id')->references('id')->on('umkms')->onDelete('cascade');
         });
     }
 
