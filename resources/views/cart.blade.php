@@ -32,129 +32,24 @@
 
                 <div id="product-list" class="overflow-auto">
                     <!-- Produk 1 -->
+                    @foreach ($data->items as $cartItems)
                     <div class="border-t py-4 flex items-center product">
                         <input type="checkbox" class="mr-4 product-checkbox">
-                        <img src="https://via.placeholder.com/50"="w-16 h-16 rounded mr-4">
+                        <img src="{{asset('uploads/products/'.$cartItems->product->image)}}" class="w-16 h-16 rounded mr-4">
                         <div class="flex-1">
-                            <h3 class="font-bold">Jam Tangan Custom Velg Volk Rays Nissan</h3>
-                            <p class="text-gray-500">Alenzashop</p>
+                            <h3 class="font-bold">{{$cartItems->product->product_name}}</h3>
+                            <p class="text-gray-500">{{$cartItems->product->umkm->umkm_name}}</p>
                         </div>
                         <div class="text-right">
-                            <p class="font-bold item-price" data-price="115000">Rp115.000</p>
+                            <p class="font-bold item-price" data-price="{{$cartItems->product->price}}">{{$cartItems->product->price}}</p>
                             <div class="flex items-center space-x-2">
                                 <button class="bg-gray-300 px-2 py-1 rounded decrease">−</button>
-                                <span class="quantity">1</span>
+                                <span class="quantity">{{$cartItems->qty}}</span>
                                 <button class="bg-gray-300 px-2 py-1 rounded increase">+</button>
                             </div>
                         </div>
                     </div>
-
-                    <div class="border-t py-4 flex items-center product">
-                      <input type="checkbox" class="mr-4 product-checkbox">
-                      <img src="https://via.placeholder.com/50" class="w-16 h-16 rounded mr-4">
-                      <div class="flex-1">
-                          <h3 class="font-bold">Jam Tangan Custom Velg Volk Rays Nissan</h3>
-                          <p class="text-gray-500">Alenzashop</p>
-                      </div>
-                      <div class="text-right">
-                          <p class="font-bold item-price" data-price="115000">Rp115.000</p>
-                          <div class="flex items-center space-x-2">
-                              <button class="bg-gray-300 px-2 py-1 rounded decrease">−</button>
-                              <span class="quantity">1</span>
-                              <button class="bg-gray-300 px-2 py-1 rounded increase">+</button>
-                          </div>
-                      </div>
-                  </div>
-
-
-                  <div class="border-t py-4 flex items-center product">
-                    <input type="checkbox" class="mr-4 product-checkbox">
-                    <img src="https://via.placeholder.com/50" class="w-16 h-16 rounded mr-4">
-                    <div class="flex-1">
-                        <h3 class="font-bold">Jam Tangan Custom Velg Volk Rays Nissan</h3>
-                        <p class="text-gray-500">Alenzashop</p>
-                    </div>
-                    <div class="text-right">
-                        <p class="font-bold item-price" data-price="115000">Rp115.000</p>
-                        <div class="flex items-center space-x-2">
-                            <button class="bg-gray-300 px-2 py-1 rounded decrease">−</button>
-                            <span class="quantity">1</span>
-                            <button class="bg-gray-300 px-2 py-1 rounded increase">+</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="border-t py-4 flex items-center product">
-                  <input type="checkbox" class="mr-4 product-checkbox">
-                  <img src="https://via.placeholder.com/50" class="w-16 h-16 rounded mr-4">
-                  <div class="flex-1">
-                      <h3 class="font-bold">Jam Tangan Custom Velg Volk Rays Nissan</h3>
-                      <p class="text-gray-500">Alenzashop</p>
-                  </div>
-                  <div class="text-right">
-                      <p class="font-bold item-price" data-price="115000">Rp115.000</p>
-                      <div class="flex items-center space-x-2">
-                          <button class="bg-gray-300 px-2 py-1 rounded decrease">−</button>
-                          <span class="quantity">1</span>
-                          <button class="bg-gray-300 px-2 py-1 rounded increase">+</button>
-                      </div>
-                  </div>
-              </div>
-
-              <div class="border-t py-4 flex items-center product">
-                <input type="checkbox" class="mr-4 product-checkbox">
-                <img src="https://via.placeholder.com/50" class="w-16 h-16 rounded mr-4">
-                <div class="flex-1">
-                    <h3 class="font-bold">Jam Tangan Custom Velg Volk Rays Nissan</h3>
-                    <p class="text-gray-500">Alenzashop</p>
-                </div>
-                <div class="text-right">
-                    <p class="font-bold item-price" data-price="115000">Rp115.000</p>
-                    <div class="flex items-center space-x-2">
-                        <button class="bg-gray-300 px-2 py-1 rounded decrease">−</button>
-                        <span class="quantity">1</span>
-                        <button class="bg-gray-300 px-2 py-1 rounded increase">+</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="border-t py-4 flex items-center product">
-              <input type="checkbox" class="mr-4 product-checkbox">
-              <img src="https://via.placeholder.com/50" class="w-16 h-16 rounded mr-4">
-              <div class="flex-1">
-                  <h3 class="font-bold">Jam Tangan Custom Velg Volk Rays Nissan</h3>
-                  <p class="text-gray-500">Alenzashop</p>
-              </div>
-              <div class="text-right">
-                  <p class="font-bold item-price" data-price="115000">Rp115.000</p>
-                  <div class="flex items-center space-x-2">
-                      <button class="bg-gray-300 px-2 py-1 rounded decrease">−</button>
-                      <span class="quantity">1</span>
-                      <button class="bg-gray-300 px-2 py-1 rounded increase">+</button>
-                  </div>
-              </div>
-          </div>
-
-
-                    <!-- Produk 2 -->
-                    <div class="border-t py-4 flex items-center product">
-                        <input type="checkbox" class="mr-4 product-checkbox">
-                        <img src="https://via.placeholder.com/50" class="w-16 h-16 rounded mr-4">
-                        <div class="flex-1">
-                            <h3 class="font-bold">TWS Anker SoundCore R50i - A3949</h3>
-                            <p class="text-gray-500">Anker Indonesia</p>
-                        </div>
-                        <div class="text-right">
-                            <p class="font-bold item-price" data-price="195000">Rp195.000</p>
-                            <div class="flex items-center space-x-2">
-                                <button class="bg-gray-300 px-2 py-1 rounded decrease">−</button>
-                                <span class="quantity">1</span>
-                                <button class="bg-gray-300 px-2 py-1 rounded increase">+</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                    @endforeach
 
             <!-- Ringkasan Belanja -->
             <div class="bg-white p-6 shadow-lg rounded-lg sticky-summary">
@@ -172,6 +67,8 @@
     </div>
 
     <!-- Script untuk Mengontrol Checkbox dan Perubahan Jumlah -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="{{asset('js/cart.js')}}"></script>
     <script>
         function updateTotalPrice() {
             let total = 0;

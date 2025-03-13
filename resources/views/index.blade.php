@@ -165,7 +165,11 @@
                         <p>Rp {{ number_format($i->price - ($i->price * ($i->discount / 100)), 0, ',', '.') }}</p>
                         <p><small>Kategori: {{ $i->category }}</small></p>
                     </a>
-                    <button class="btn btn-primary">Add to Cart</button>
+                    <form action="/cart" method="post">
+                    @csrf
+                        <input type="text" name="id" value="{{$i->id}}" hidden>
+                        <button type="submit" class="btn btn-primary">Add to Cart</button>
+                    </form>
                 </div>
             </div>
             @endforeach

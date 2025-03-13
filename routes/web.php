@@ -88,8 +88,11 @@ Route::get('/logout', [LoginController::class, 'logout']);
 Route::get('/signup', [SignupController::class, 'showSignupForm'])->name('signup');
 Route::post('/signup', [SignupController::class, 'signup']);
 
-
-Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::prefix('/cart')->group(function() {
+    Route::get('/', [CartController::class, 'index']);
+    Route::post('/', [CartController::class, 'store']);
+});
+// Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::get('/checkout', [CheckoutController::class, 'index']);
 
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
