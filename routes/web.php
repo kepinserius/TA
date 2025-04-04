@@ -17,6 +17,7 @@ use App\Http\Controllers\SignUpUmkmController;
 use App\Http\Controllers\UmkmProfileController;
 use App\Http\Controllers\UmkmProductController;
 use App\Http\Controllers\AdsUmkmController;
+use App\Http\Controllers\ShowMerchantController;
 
 Route::prefix('/admin')->group(function() {
     Route::prefix('/user')->group(function(){
@@ -77,9 +78,21 @@ Route::prefix('/umkm')->group(function() {
         Route::put('/{id}', [AdsUmkmController::class, 'update']);
         Route::get('/{id}', [AdsUmkmController::class, 'destroy']);
     });
+    Route::prefix('/profile')->group(function() {
+        Route::get('/', [UmkmProfileController::class, 'index']);
+        Route::get('/edit', [UmkmProfileController::class, 'showEdit']);
+        Route::post('/', [UmkmProfileController::class, 'store']);
+        Route::put('/{id}', [UmkmProfileController::class, 'update']);
+        Route::get('/{id}', [UmkmProfileController::class, 'destroy']);
+    });
+    Route::get('/status/{status}', function($status) {
+        return view('statusUmkm', ['status' => $status]);
+    });
 });
 
 Route::get('/', [HomeController::class, 'index']);
+
+Route::get('/merchant/{id}', [ShowMerchantController::class, 'index']);
 
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
@@ -91,12 +104,17 @@ Route::post('/signup', [SignupController::class, 'signup']);
 Route::prefix('/cart')->group(function() {
     Route::get('/', [CartController::class, 'index']);
     Route::post('/', [CartController::class, 'store']);
+    Route::put('/{id}', [CartController::class, 'updateQty']);
 });
 // Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-Route::get('/checkout', [CheckoutController::class, 'index']);
+Route::post('/checkout', [CheckoutController::class, 'index']);
 
-Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
-Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+Route::prefix('/profile')->group(function() {
+    Route::get('/', [ProfileController::class, 'index']);
+    Route::get('/edit', [ProfileController::class, 'showEdit']);
+    Route::post('/', [ProfileController::class, 'store']);
+    Route::put('/{id}', [ProfileController::class, 'update']);
+});
 
 // Halaman daftar produk
 Route::get('/produk/{id}', [ProdukController::class, 'index'])->name('products.index');

@@ -22,11 +22,12 @@ class ProductController extends Controller
             'product_name' => $request->name,
             'category' => $request->category,
             'price' => $request->price,
+            'stock' => $request->stock,
             'discount' => $request->discount,
             'image' => $this->storeImage($request->image),
             'description' => $request->description
-        ])
-        ? redirect('/admin/products')->with('success', 'Berhasil menambahkan data')
+            ])
+            ? redirect('/admin/products')->with('success', 'Berhasil menambahkan data')
         : redirect()->back()->with('error', 'Gagal menambahkan data');
     }
 
@@ -39,6 +40,7 @@ class ProductController extends Controller
             'umkm_id' => $request->umkm,
             'product_name' => $request->name,
             'category' => $request->category,
+            'stock' => $request->stock,
             'price' => $request->price,
             'discount' => $request->discount,
             'description' => $request->description
@@ -53,6 +55,7 @@ class ProductController extends Controller
                 'category' => $request->category,
                 'price' => $request->price,
                 'discount' => $request->discount,
+                'stock' => $request->stock,
                 'image' => $this->storeImage($request->image),
                 'description' => $request->description
             ])

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Umkm;
 
 class ProdukController extends Controller
 {
@@ -12,9 +13,19 @@ class ProdukController extends Controller
      */
     public function index($id)
     {
-        $data = Product::where('id', $id)->first();
-        return view('produkdetail', ['data' => $data]);
+        $data = Product::with(['umkm'])->where('id', $id)->first();
+        if (session()->has('user')) {
+            return view('produkdetail', [
+                'data' => $data,
+                'umkm' => Umkm::where('user_id', session('user')['id'])->first()
+            ]);
+        } else {
+            return view('produkdetail', [
+                'data' => $data,
+            ]);
+        }
     }
+    
 
     /**
      * Menampilkan halaman detail produk berdasarkan ID.

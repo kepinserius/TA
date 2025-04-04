@@ -26,11 +26,7 @@ class UmkmController extends Controller
 
     public function update(Request $request, $id) {
         return Umkm::where('id', $id)->update([
-            'user_id' => $request->user_id,
-            'umkm_name' => $request->name,
-            'description' => $request->description,
-            'address' => $request->address,
-            'contact' => $request->contact
+            'status' => $request->status
         ])
         ? redirect('/admin/umkm')->with('success', 'Berhasil mengubah data')
         : redirect()->back()->with('error', 'Gagal mengubah data');

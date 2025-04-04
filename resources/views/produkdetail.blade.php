@@ -33,7 +33,7 @@
                 <p id="product-price" class="text-green-500 text-xl font-bold mt-2">Rp {{(int) $data->price}}</p>
 
                 <!-- Stok -->
-                <p id="product-stock" class="text-gray-600 mt-2">Stok: <span class="text-green-600">Tersedia</span></p>
+                <p id="product-stock" class="text-gray-600 mt-2">{{$data->stock}} <span class="text-green-600">Tersedia</span></p>
 
                 <!-- Deskripsi -->
                 <p id="product-description" class="text-gray-600 mt-4">
@@ -52,23 +52,31 @@
             </div>
         </div>
     </div>
+    
+    <div class="max-w-4xl mx-auto my-5 bg-white shadow-lg rounded-lg overflow-hidden">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-1 p-6">
+            <!-- Foto Produk -->
+            <div>
+                <img id="product-image" src="{{asset('uploads/products/'.$data->image)}}" class="w-36 h-36 rounded-full shadow-md">
+            </div>
+
+            <!-- Detail Produk -->
+            <div>
+                <h2 id="product-name" class="text-2xl font-bold text-gray-800">{{$data->umkm->umkm_name}}</h2>
+                <p id="product-stock" class="text-gray-600 mt-2">{{$data->umkm->address}}</p>
+
+                <!-- Tombol Tambah ke Keranjang -->
+                <div class="mt-6 flex space-x-4">
+                    <a href="/merchant/{{$data->umkm->id}}" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded shadow-md">
+                        Kunjungi Toko
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Script -->
     <script>
-        // Data produk dummy (bisa diubah dari URL parameter jika mau dinamis)
-        let product = {
-            name: "Jam Tangan Custom Velg Volk Rays Nissan",
-            price: 115000,
-            stock: 10,
-            description: "Jam tangan custom dengan desain velg Volk Rays Nissan. Cocok untuk kolektor dan penggemar otomotif.",
-            image: "https://via.placeholder.com/300"
-        };
-
-        // Load data produk ke halaman
-        document.getElementById("product-stock").innerHTML = product.stock > 0
-            ? `<span class="text-green-600">${product.stock} tersedia</span>`
-            : `<span class="text-red-600">Habis</span>`;
-
         // Fungsi Tambah ke Keranjang (Dummy)
         function addToCart() {
             alert(`"${product.name}" telah ditambahkan ke keranjang!`);

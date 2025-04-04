@@ -10,18 +10,18 @@ use App\Models\Category;
 class UmkmProductController extends Controller
 {
     public function index() {
-        $umkm = Umkm::where('id', session('user')['id'])->first();
+        $umkm = Umkm::where('user_id', session('user')['id'])->first();
         $data = Product::with(['umkm'])->where('umkm_id', $umkm->id)->get();
-        // dd($data->toArray());
         return view('umkm.product', ['data' => $data, 'category' => Category::get(), 'umkm' => $umkm]);
     }
 
     public function store(Request $request) {
-        $umkm = Umkm::where('id', session('user')['id'])->first();
+        $umkm = Umkm::where('user_id', session('user')['id'])->first();
         return Product::insert([
             'umkm_id' => $umkm->id,
             'product_name' => $request->name,
             'category' => $request->category,
+            'stock' => $request->stock,
             'price' => $request->price,
             'discount' => $request->discount,
             'image' => $this->storeImage($request->image),
@@ -33,12 +33,13 @@ class UmkmProductController extends Controller
 
     public function update(Request $request, $id) {
         $getImage = Product::where('id', $id)->first();
-        $umkm = Umkm::where('id', session('user')['id'])->first();
+        $umkm = Umkm::where('user_id', session('user')['id'])->first();
         if (!$request->image) {
             return Product::where('id', $id)->update([
             'umkm_id' => $umkm->id,
             'product_name' => $request->name,
             'category' => $request->category,
+            'stock' => $request->stock,
             'price' => $request->price,
             'discount' => $request->discount,
             'description' => $request->description,
@@ -53,6 +54,7 @@ class UmkmProductController extends Controller
             'umkm_id' => $umkm->id,
             'product_name' => $request->name,
             'category' => $request->category,
+            'stock' => $request->stock,
             'price' => $request->price,
             'discount' => $request->discount,
             'image' => $this->storeImage($request->image),

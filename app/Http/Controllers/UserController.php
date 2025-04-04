@@ -43,6 +43,7 @@ class UserController extends Controller
             } else {
                 return redirect()->back()->with('error', 'email telah terdaftar !');
             }
+            return $this->saveUpdate($request, $id);
         } else {
             return redirect()->back()->with('error', 'username telah terdaftar !');
         }

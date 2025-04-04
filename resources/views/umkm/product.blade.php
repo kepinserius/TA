@@ -19,6 +19,7 @@
                             <tr>
                                 <th>Product Name</th>
                                 <th>Category</th>
+                                <th>Stock</th>
                                 <th>Price</th>
                                 <th>Status</th>
                                 <th>Action</th>
@@ -29,6 +30,7 @@
                                 <tr>
                                     <td><img src="{{asset('uploads/products/'.$item->image)}}" style="max-height: 5em; max-width: 5em;" alt=""> {{$item->product_name}}</td>
                                     <td>{{$item->category}}</td>
+                                    <td>{{$item->stock}}</td>
                                     <td>{{$item->price}}</td>
                                     <td>{{$item->status ? 'Aktif' : 'Non-Aktif'}}</td>
                                     <td>
@@ -59,7 +61,7 @@
                                     <div class="modal-dialog modal-lg">
                                       <div class="modal-content">
                                         <div class="modal-header">
-                                          <h5 class="modal-title" id="exampleModalLabel">Tambah Data Produk</h5>
+                                          <h5 class="modal-title" id="exampleModalLabel">Edit Data Produk</h5>
                                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                           </button>
@@ -83,6 +85,10 @@
                                                 <div class="form-group">
                                                     <label for="description">Description</label>
                                                     <textarea name="description" id="description" cols="30" rows="10" class="form-control">{{$item->description}}</textarea>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="stock">Stok</label>
+                                                    <input type="text" name="stock" value="{{$item->stock}}" class="form-control" id="stock" placeholder="Price" required>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="address">Price</label>
@@ -155,12 +161,21 @@
                     </div>
                     <div class="form-group">
                         <label for="address">Price</label>
-                        <input type="text" name="price" class="form-control" id="address" placeholder="Price" required>
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <div class="input-group-text">Rp.</div>
+                            </div>
+                            <input type="text" name="price" onkeypress="return isNumber(event)" class="form-control" id="address" placeholder="Price" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="stock">Stok</label>
+                        <input type="text" name="stock" onkeypress="return isNumber(event)" class="form-control" id="stock" placeholder="Stok" required>
                     </div>
                     <div class="form-group">
                         <label for="discount">Dicsount</label>
                         <div class="input-group">
-                            <input type="text" name="discount" class="form-control" id="discount" placeholder="Discount">
+                            <input type="text" name="discount" onkeypress="return isNumber(event)" class="form-control" id="discount" placeholder="Discount">
                             <div class="input-group-append">
                                 <div class="input-group-text">%</div>
                             </div>

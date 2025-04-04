@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 class SignUpUmkmController extends Controller
 {
     public function index() {
+        $checkUmkm = Umkm::where('user_id', session('user')['id'])->first();
         return view('umkm.SignUp');
     }
 
@@ -25,7 +26,7 @@ class SignUpUmkmController extends Controller
             'address' => $request->address,
             'contact' => $request->contact
         ])
-        ? redirect('/umkm/profile')->with('success', 'Berhasil menambahkan data')
+        ? redirect('/umkm/status/pending')->with('success', 'Berhasil menambahkan data')
         : redurect()->back()->with('error', 'Gagal menambahkan data');
     }
 

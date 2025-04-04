@@ -23,6 +23,7 @@
                                     <th>Name</th>
                                     <th>Address</th>
                                     <th>Contact</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -32,8 +33,15 @@
                                         <td>{{$item->umkm_name}}</td>
                                         <td>{{$item->address}}</td>
                                         <td>{{$item->contact}}</td>
+                                        <td>{{$item->status}}</td>
                                         <td>
+                                            @if ($item->status === 'pending')
+                                            <a href="" data-status="{{$item->id}}" id="approve" class="btn btn-primary"><i class="fas fa-thumbs-up"></i> Approve</a>
+                                            <a href="" data-status="{{$item->id}}" id="reject" class="btn btn-danger"><i class="fas fa-ban"></i> Reject</a>
+                                            @endif
+                                            @if ($item->status === 'reject')
                                             <a href="#deleteData{{$item->id}}" class="btn btn-danger" data-toggle="modal"><i class="fas fa-trash"></i> Delete</a>
+                                            @endif
                                         </td>
                                     </tr>
                                     <div id="deleteData{{ $item->id }}" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -108,4 +116,32 @@
                   </div>
                 </div>
               </div>
+              <script>
+                document.getElementById('approve').addEventListener('click', function() {
+                    let dataId = this.getAttribute('data-status');
+                    $.ajax({
+                        url: `/admin/umkm/${dataId}`,
+                        type: 'PUT',
+                        dataType: 'json',
+                        cache: false,
+                        data: {
+                            'status' : 'approve',
+                            '_token' : '{{csrf_token()}}'
+                        }
+                    })
+                })
+                document.getElementById('reject').addEventListener('click', function() {
+                    let dataId = this.getAttribute('data-status');
+                    $.ajax({
+                        url: `/admin/umkm/${dataId}`,
+                        type: 'PUT',
+                        dataType: 'json',
+                        cache: false,
+                        data: {
+                            'status' : 'reject',
+                            '_token' : '{{csrf_token()}}'
+                        }
+                    })
+                })
+              </script>
 @endsection

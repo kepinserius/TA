@@ -18,15 +18,27 @@ class CartController extends Controller
         return view('cart', ['data' => $authCart]);
     }
 
+    public function updateQty(Request $request, $id) {
+        if ($request->qty == 0) {
+            CartItems::where('id', $id)->delete();
+        }
+        return CartItems::where('id', $id)->update([
+            'qty' => $request->qty
+        ])
+        ? response()->json($this->authCart())
+        : response()->json('error');
+    }
+
     public function authCart() {
+        $data = Cart::with(['items', 'items.product'])->where([['user_id', '=' , session('user')['id']], ['status', '=', true]])->first();
         $total = 0;
-        $data = Cart::with(['items', 'items.product'])->where([['user_id', '=' , session('user')['id']], ['status', '=', 'false']])->first();
         if (!$data) {
-            return Cart::insert([
+            Cart::insert([
                 'user_id' => session('user')['id'],
             ]);
+            return $data;
         }
-
+        
         if (count($data->items) > 0) {
             foreach ($data->items as $item) {
                 $total += $item->qty * $item->product->price;
@@ -60,6 +72,12 @@ class CartController extends Controller
 
         $existItem->qty = $existItem->qty + 1;
         $existItem->save();
-        return redirect('/cart');
+        return $cart;
+    }
+
+    public function destroy($id) {
+        return CartItem::where('id', $id)->delete()
+        ? redirect('/cart')->with('success', 'Berhasil menghapus data')
+        : redirect()->back()->with('error', 'Gagal menghapus data');
     }
 }
