@@ -56,10 +56,10 @@
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="mr-2 d-lg-inline">{{session('user')['name']}}</span>
+                            <span class="mr-2 d-lg-inline">{{$user == null ? session('user')['username'] : $user->name}}</span>
                             <img class="img-profile rounded-circle"
-                                style="max-width: 1.8em;"
-                                src="img/undraw_profile.svg">
+                                style="max-width: 1.8em; max-height: 1.8em;"
+                                src="{{asset('img/undraw_profile.svg')}}">
                         </a>
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -70,7 +70,7 @@
                             </a>
                             @if ($umkm)
                             <a class="dropdown-item" href="{{$umkm->status === 'approve' ? 'umkm/product' : 'umkm/status/'.$umkm->status}}">
-                                <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                <i class="fas fa-store fa-sm fa-fw mr-2 text-gray-400"></i>
                                 UMKM
                             </a>
                             @else    
@@ -79,10 +79,6 @@
                                 UMKM
                             </a>
                             @endif
-                            <a class="dropdown-item" href="#">
-                                <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Activity Log
-                            </a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="/logout">
                                 <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -156,12 +152,17 @@
     <!-- Product Grid -->
     <div class="container mt-4">
         <div class="row" id="productGrid">
+            @if ($product->toArray() == null)
+                <div class="col-md-20 mt-2">
+                    <h5 class="text-center">Tidak ada produk kali ini</h5>
+                </div>
+            @endif
             @foreach($product as $i)
             <div class="col-md-3 product-item" data-category="{{ $i->category }}" data-price="{{ $i->price - ($i->price * ($i->discount / 100)) }}">
                 <div class="product-card">
                     <a href="/produk/{{ $i->id }}" class="text-decoration-none text-dark">
                         <img style="max-height: 10em;" src="{{ asset('uploads/products/'.$i->image) }}" alt="">
-                        <h5 class="mt-3">Produk {{ $i->product_name }}</h5>
+                        <h5 class="mt-3">{{ $i->product_name }}</h5>
                         <p>Rp {{ number_format($i->price - ($i->price * ($i->discount / 100)), 0, ',', '.') }}</p>
                         <p><small>Kategori: {{ $i->category }}</small></p>
                     </a>
@@ -177,7 +178,7 @@
     </div>
 
     <!-- Produk Terbaru -->
-<div class="container mt-5">
+{{-- <div class="container mt-5">
     <h2 class="text-center mb-4">Produk Terbaru</h2>
     <div class="row">
         @foreach(range(1, 4) as $i)
@@ -191,13 +192,18 @@
         </div>
         @endforeach
     </div>
-</div>
+</div> --}}
 
 
    <!-- Ads Section -->
 <div class="container mt-4">
     <h2>Promo dan Ads</h2>
     <div class="row">
+        @if ($ads->toArray() == null)
+        <div class="col-md-20 mt-2">
+            <h5 class="text-center text-bold">Tidak ada promo kali ini</h5>
+        </div>
+        @endif
         @foreach($ads as $promo)
         <div class="col-md-6">
             <div class="card mb-3 p-3 d-flex align-items-center flex-row">

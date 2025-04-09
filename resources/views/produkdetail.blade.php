@@ -45,7 +45,7 @@
                     <button onclick="addToCart()" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded shadow-md">
                         Tambah ke Keranjang
                     </button>
-                    <a href="cart.html" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded shadow-md">
+                    <a href="/cart" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded shadow-md">
                         Lihat Keranjang
                     </a>
                 </div>
@@ -57,7 +57,7 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-1 p-6">
             <!-- Foto Produk -->
             <div>
-                <img id="product-image" src="{{asset('uploads/products/'.$data->image)}}" class="w-36 h-36 rounded-full shadow-md">
+                <img id="product-image" src="{{asset('uploads/profile_umkm/'.$data->umkm->image)}}" class="w-36 h-36 rounded-full shadow-md">
             </div>
 
             <!-- Detail Produk -->

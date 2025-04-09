@@ -48,11 +48,11 @@
                             <p class="text-gray-500">{{$cartItems->product->umkm->umkm_name}}</p>
                         </div>
                         <div class="text-right">
-                            <p class="font-bold item-price" data-price="{{$cartItems->product->price * $cartItems->qty}}">{{$cartItems->product->price}}</p>
+                            <p class="font-bold item-price" data-price="{{$cartItems->product->price * $cartItems->qty}}">{{$cartItems->product->price - ($cartItems->product->price * ($cartItems->product->discount / 100))}}</p>
                             <div class="flex items-center space-x-2">
-                                <button class="bg-gray-300 px-2 py-1 rounded decrease" data-id="{{$cartItems->id}}">-</button>
+                                <button type="button" class="bg-gray-300 px-2 py-1 rounded decrease" data-id="{{$cartItems->id}}">-</button>
                                 <span class="quantity">{{$cartItems->qty}}</span>
-                                <button class="bg-gray-300 px-2 py-1 rounded increase" data-id="{{$cartItems->id}}">+</button>
+                                <button type="button" class="bg-gray-300 px-2 py-1 rounded increase" data-id="{{$cartItems->id}}">+</button>
                             </div>
                         </div>
                     </div>

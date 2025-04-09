@@ -36,7 +36,8 @@ class CartController extends Controller
             Cart::insert([
                 'user_id' => session('user')['id'],
             ]);
-            return $data;
+            $cart = Cart::with(['items', 'items.product'])->where([['user_id', '=' , session('user')['id']], ['status', '=', true]])->first();
+            return $cart;
         }
         
         if (count($data->items) > 0) {
@@ -54,7 +55,6 @@ class CartController extends Controller
 
     public function store(Request $request) {
         $cart = $this->authCart();
-
         $existItem = CartItems::where([
             'cart_id' => $cart['id'],
             'product_id' => $request->id

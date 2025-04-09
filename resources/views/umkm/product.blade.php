@@ -31,7 +31,7 @@
                                     <td><img src="{{asset('uploads/products/'.$item->image)}}" style="max-height: 5em; max-width: 5em;" alt=""> {{$item->product_name}}</td>
                                     <td>{{$item->category}}</td>
                                     <td>{{$item->stock}}</td>
-                                    <td>{{$item->price}}</td>
+                                    <td>{{formatRupiah($item->price)}}</td>
                                     <td>{{$item->status ? 'Aktif' : 'Non-Aktif'}}</td>
                                     <td>
                                         <a href="#editData{{$item->id}}" class="btn btn-secondary" data-toggle="modal"><i class="fas fa-edit"></i> Edit</a>

@@ -51,7 +51,6 @@ class LoginController extends Controller
             'username' => $validate['username'],
             'email' => $validate['email'],
             'role' => $validate['role'],
-            'name' => $validate['name'],
             'id' => $validate['id'],
         ]);
     }

@@ -33,7 +33,7 @@
                                         <td>{{$item->umkm->umkm_name}}</td>
                                         <td>{{$item->product_name}}</td>
                                         <td>{{$item->category}}</td>
-                                        <td>{{$item->price}}</td>
+                                        <td>{{formatRupiah($item->price)}}</td>
                                         <td>
                                             <a href="#deleteData{{$item->id}}" class="btn btn-danger" data-toggle="modal"><i class="fas fa-trash"></i> Delete</a>
                                         </td>

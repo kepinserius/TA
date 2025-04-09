@@ -25,8 +25,7 @@ class UserController extends Controller
             'username' => $request->username,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-            'name' => $request->name,
-            'role' => $request->role,
+            'role' => 'admin',
             'nonhash' => $request->password
         ]) 
         ? redirect('/admin/user')->with('success', 'sukses menambahkan data')
@@ -56,8 +55,7 @@ class UserController extends Controller
             'username' => $request->username,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-            'name' => $request->name,
-            'role' => $request->role
+            'role' => 'admin'
         ])
         ? redirect('/admin/user')->with('success', 'Berhasil mengubah data !')
         : redirect()->back()->with('error', 'Gagal mengubah data !');

@@ -20,7 +20,6 @@
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <th>Name</th>
                                     <th>Username</th>
                                     <th>Email</th>
                                     <th>Role</th>
@@ -30,7 +29,6 @@
                             <tbody>
                                 @foreach ($data as $item)
                                     <tr>
-                                        <td>{{$item->name}}</td>
                                         <td>{{$item->username}}</td>
                                         <td>{{$item->email}}</td>
                                         <td>{{$item->role}}</td>
@@ -65,19 +63,6 @@
                                                         <div class="form-group">
                                                             <label for="email">Email address</label>
                                                             <input type="email" name="email" value="{{$item->email}}" class="form-control" id="email" placeholder="Email">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="name">Name</label>
-                                                            <input type="text" name="name" value="{{$item->name}}" class="form-control" id="name" placeholder="Nama Lengkap">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="role">Role</label>
-                                                            <select name="role" id="role" class="form-control">
-                                                                <option value="" default disabled>Pilih Role</option>
-                                                                <option value="user" {{$item->role == 'user' ? 'selected' : ''}}>User</option>
-                                                                <option value="umkm" {{$item->role == 'umkm' ? 'selected' : ''}}>Umkm</option>
-                                                                <option value="admin" {{$item->role == 'admin' ? 'selected' : ''}}>Admin</option>
-                                                            </select>
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
@@ -137,19 +122,6 @@
                             <div class="form-group">
                                 <label for="email">Email address</label>
                                 <input type="email" name="email" class="form-control" id="email" placeholder="Email">
-                            </div>
-                            <div class="form-group">
-                                <label for="name">Name</label>
-                                <input type="text" name="name" class="form-control" id="name" placeholder="Nama Lengkap">
-                            </div>
-                            <div class="form-group">
-                                <label for="role">Role</label>
-                                <select name="role" id="role" class="form-control">
-                                    <option value="" selected disabled>Pilih Role</option>
-                                    <option value="user">User</option>
-                                    <option value="umkm">Umkm</option>
-                                    <option value="admin">Admin</option>
-                                </select>
                             </div>
                         </div>
                         <div class="modal-footer">
