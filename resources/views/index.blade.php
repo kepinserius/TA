@@ -12,16 +12,19 @@
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <style>
         body {
-            padding-top: 70px;
+            padding-top: 80px;
             font-family: 'Poppins', sans-serif;
             background-color: #f9f9f9;
             overflow-x: hidden;
         }
         .navbar-custom {
-            background-color: #FF7F27; /* Warna oranye untuk navbar */
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background-color: rgba(255, 127, 39, 0.9); /* Warna oranye transparan */
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
+            border-radius: 0 0 15px 15px;
+            margin: 0 15px;
+            transition: all 0.3s ease;
         }
         .navbar-custom .nav-link {
             color: white !important;
@@ -350,7 +353,7 @@
     
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
-        <div class="container">
+        <div class="container-fluid px-4">
             <a class="navbar-brand text-white" href="#" data-aos="fade-right" data-aos-duration="800">
                 <i class="fas fa-store me-2"></i> Etalase UMKM
             </a>
@@ -584,20 +587,28 @@
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     
     <script>
-        // Initialize AOS animation
-        AOS.init({
-            once: true, // whether animation should happen only once - while scrolling down
-            mirror: false, // whether elements should animate out while scrolling past them
-        });
+        AOS.init();
         
-        // Scroll bar progress
+        // Scroll progress bar
         window.onscroll = function() {
-            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            let scrolled = (winScroll / height) * 100;
+            var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            var scrolled = (winScroll / height) * 100;
             document.getElementById("scrollBar").style.width = scrolled + "%";
+            
+            // Floating navbar effect
+            var navbar = document.querySelector('.navbar-custom');
+            if (winScroll > 50) {
+                navbar.style.backgroundColor = "rgba(255, 127, 39, 0.95)";
+                navbar.style.margin = "0 10px";
+                navbar.style.boxShadow = "0 8px 20px rgba(0,0,0,0.15)";
+            } else {
+                navbar.style.backgroundColor = "rgba(255, 127, 39, 0.85)";
+                navbar.style.margin = "0 15px";
+                navbar.style.boxShadow = "0 8px 20px rgba(0,0,0,0.1)";
+            }
         };
-        
+
         function filterProducts() {
             const searchQuery = document.getElementById('searchBox').value.toLowerCase();
             const categoryFilter = document.getElementById('filterCategory').value;

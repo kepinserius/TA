@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.0.18/sweetalert2.min.css" integrity="sha512-riZwnB8ebhwOVAUlYoILfran/fH0deyunXyJZ+yJGDyU0Y8gsDGtPHn1eh276aNADKgFERecHecJgkzcE9J3Lg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -222,11 +221,10 @@
             </div>
 
             <div class="w-1/2 bg-[#FF7F27] text-white flex flex-col items-center justify-center p-8 rounded-r-lg relative">
-                <div class="float-element animate__animated animate__fadeIn animate__delay-1s">
-                    <lottie-player src="https://assets9.lottiefiles.com/packages/lf20_qcl4tx.json" background="transparent" speed="1" style="width: 250px; height: 250px;" loop autoplay></lottie-player>
+                <div class="float-element animate__animated animate__fadeIn animate__delay-1s mb-6">
+                    <i class="fas fa-store-alt text-white text-9xl"></i>
                 </div>
                 <div class="mb-6 text-center animate__animated animate__fadeInUp animate__delay-1s">
-                    <i class="fas fa-store text-5xl mb-4"></i>
                     <h2 class="text-2xl font-semibold mb-3">Etalase UMKM</h2>
                     <p class="mb-4 opacity-90">Platform digital untuk membantu UMKM menjangkau lebih banyak pelanggan</p>
                 </div>
