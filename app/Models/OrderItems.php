@@ -8,4 +8,14 @@ class OrderItems extends Model
 {
     //
     protected $table = 'order_items';
+
+    protected $fillable = [
+        'order_id',
+        'product_id',
+        'qty'
+    ];
+
+    public function orderProducts() {
+        return $this->belongsTo(Product::class, 'product_id');
+    }
 }

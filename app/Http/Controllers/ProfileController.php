@@ -44,7 +44,9 @@ class ProfileController extends Controller
                 
             'name' => $request->name,
             'phone' => $request->phone,
-            'address' => $request->address
+            'address' => $request->address,
+            'lat' => $request->lat,
+            'lng' => $request->lng
             ])
             ? redirect('/profile')->with('success', 'Berhasil mengubah data')
             : redirect()->back()->with('error', 'Gagal mengubah data');
@@ -58,6 +60,8 @@ class ProfileController extends Controller
                 'name' => $request->name,
                 'phone' => $request->phone,
                 'address' => $request->address,
+                'lat' => $request->lat,
+                'lng' => $request->lng,
                 'image' => $this->storeImage($request->image)
             ])
             ? redirect('/profile')->with('success', 'Berhasil menambahkan data')

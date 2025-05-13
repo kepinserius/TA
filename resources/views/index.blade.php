@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Etalase UMKM</title>
-    <link href="{{asset('vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
-    <link href="{{asset('css/sb-admin-2.min.css')}}" rel="stylesheet">
+    <link href="{{secure_asset('vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{secure_asset('css/sb-admin-2.min.css')}}" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- AOS CSS -->
@@ -368,7 +368,7 @@
                             <span class="me-2 d-lg-inline">{{$user == null ? session('user')['username'] : $user->name}}</span>
                             <img class="img-profile rounded-circle"
                                 style="max-width: 2em; max-height: 2em; border: 2px solid white;"
-                                src="{{asset('img/undraw_profile.svg')}}">
+                                src="{{secure_asset('img/undraw_profile.svg')}}">
                         </a>
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -376,6 +376,10 @@
                             <a class="dropdown-item" href="/profile">
                                 <i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>
                                 Profile
+                            </a>
+                            <a class="dropdown-item" href="/order">
+                                <i class="fas fa-tasks fa-sm fa-fw me-2 text-gray-400"></i>
+                                Order
                             </a>
                             @if ($umkm)
                             <a class="dropdown-item" href="{{$umkm->status === 'approve' ? 'umkm/product' : 'umkm/status/'.$umkm->status}}">
@@ -427,19 +431,19 @@
             </div>
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img src="{{ asset('images/download.jpg') }}" class="d-block w-100" alt="Promo 1">
+                    <img src="{{ secure_asset('images/download.jpg') }}" class="d-block w-100" alt="Promo 1">
                     <div class="carousel-caption d-none d-md-block">
                         <h5 class="bg-dark bg-opacity-50 p-2 rounded" data-aos="fade-up" data-aos-delay="300">Promo Spesial</h5>
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img src="{{ asset('images/download.jpg') }}" class="d-block w-100" alt="Promo 2">
+                    <img src="{{ secure_asset('images/download.jpg') }}" class="d-block w-100" alt="Promo 2">
                     <div class="carousel-caption d-none d-md-block">
                         <h5 class="bg-dark bg-opacity-50 p-2 rounded" data-aos="fade-up" data-aos-delay="300">Produk Terbaik</h5>
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img src="{{ asset('images/download.jpg') }}" class="d-block w-100" alt="Promo 3">
+                    <img src="{{ secure_asset('images/download.jpg') }}" class="d-block w-100" alt="Promo 3">
                     <div class="carousel-caption d-none d-md-block">
                         <h5 class="bg-dark bg-opacity-50 p-2 rounded" data-aos="fade-up" data-aos-delay="300">Diskon Besar</h5>
                     </div>
@@ -496,7 +500,7 @@
                 <div class="product-card">
                     <a href="/produk/{{ $i->id }}" class="text-decoration-none text-dark">
                         <div class="product-img-container">
-                            <img src="{{ asset('uploads/products/'.$i->image) }}" alt="{{ $i->product_name }}">
+                            <img src="{{ secure_asset('uploads/products/'.$i->image) }}" alt="{{ $i->product_name }}">
                             @if($i->discount > 0)
                                 <div class="position-absolute top-0 end-0 bg-danger text-white py-1 px-2 m-2 rounded-pill">
                                     <small>-{{ $i->discount }}%</small>
@@ -530,7 +534,7 @@
            <div class="col-md-4 mb-4" data-aos="flip-left" data-aos-duration="800" data-aos-delay="{{ $loop->index * 100 }}">
                <div class="card h-100 border-0 shadow-sm promo-card">
                    <div class="card-body text-center">
-                       <img src="{{ asset('images/product.jpg') }}" class="img-fluid rounded mb-3" alt="Promo">
+                       <img src="{{ secure_asset('images/product.jpg') }}" class="img-fluid rounded mb-3" alt="Promo">
                        <h5 class="card-title">{{ $ad->product->product_name }}</h5>
                        <p class="card-text">{{ $ad->caption }}</p>
                        <a href="/produk/{{ $ad->product->id }}" class="btn btn-outline-primary">Lihat Produk</a>
@@ -576,10 +580,10 @@
    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{asset('vendor/jquery/jquery.min.js')}}"></script>
-    <script src="{{asset('vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-    <script src="{{asset('vendor/jquery-easing/jquery.easing.min.js')}}"></script>
-    <script src="{{asset('js/sb-admin-2.min.js')}}"></script>
+    <script src="{{secure_asset('vendor/jquery/jquery.min.js')}}"></script>
+    <script src="{{secure_asset('vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{secure_asset('vendor/jquery-easing/jquery.easing.min.js')}}"></script>
+    <script src="{{secure_asset('js/sb-admin-2.min.js')}}"></script>
     <!-- AOS JS -->
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     

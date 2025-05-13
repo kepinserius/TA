@@ -24,6 +24,8 @@ class UmkmProfileController extends Controller
             'umkm_name' => $request->name,
             'contact' => $request->phone,
             'address' => $request->address,
+            'lat' => $request->lat,
+            'lng' => $request->lng,
             'description' => $request->description
             ])
             ? redirect('/umkm/profile')->with('success', 'Berhasil mengubah data')
@@ -35,6 +37,8 @@ class UmkmProfileController extends Controller
                 'umkm_name' => $request->name,
                 'contact' => $request->phone,
                 'address' => $request->address,
+                'lat' => $request->lat,
+                'lng' => $request->lng,
                 'description' => $request->description,
                 'image' => $this->storeImage($request->image)
             ])

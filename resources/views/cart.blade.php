@@ -510,7 +510,7 @@
                                     </p>
                                 </div>
                                 <div class="w-full md:w-auto flex flex-col items-end">
-                                    <p class="font-bold price mb-2" data-price="{{$cartItems->product->price * $cartItems->qty}}">
+                                    <p class="font-bold price mb-2" data-price="{{$cartItems->product->price - ($cartItems->product->price * ($cartItems->product->discount / 100))}}">
                                         Rp {{number_format($cartItems->product->price - ($cartItems->product->price * ($cartItems->product->discount / 100)), 0, ',', '.')}}
                                     </p>
                                     <div class="quantity-control">

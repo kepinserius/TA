@@ -18,6 +18,9 @@ use App\Http\Controllers\UmkmProfileController;
 use App\Http\Controllers\UmkmProductController;
 use App\Http\Controllers\AdsUmkmController;
 use App\Http\Controllers\ShowMerchantController;
+use App\Http\Controllers\WebhookController;
+use App\Http\Controllers\PaymentsController;
+use App\Http\Controllers\OrderController;
 
 Route::prefix('/admin')->group(function() {
     Route::prefix('/user')->group(function(){
@@ -106,8 +109,27 @@ Route::prefix('/cart')->group(function() {
     Route::post('/', [CartController::class, 'store']);
     Route::put('/{id}', [CartController::class, 'updateQty']);
 });
-// Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-Route::post('/checkout', [CheckoutController::class, 'index']);
+
+Route::prefix('/checkout')->group(function() {
+    Route::get('/page', [CheckoutController::class, 'show']);
+    Route::post('/', [CheckoutController::class, 'index']);
+    Route::post('/order', [CheckoutController::class, 'store']);
+});
+
+Route::prefix('/payment')->group(function() {
+    Route::get('/{id}', [PaymentsController::class, 'paymentPage']);
+    Route::get('/check/{id}', [PaymentsController::class, 'checkPayment']);
+});
+
+Route::prefix('/webhook')->group(function() {
+    Route::post('/ewallet', [WebhookController::class, 'handleEwallet']);
+    Route::post('/disbursement', [WebhookController::class, 'handleDisbursement']);
+});
+
+Route::prefix('/order')->group(function() {
+    Route::get('/', [OrderController::class, 'orderUserPage']);
+    Route::get('/{id}', [OrderController::class, 'showUserPage']);
+});
 
 Route::prefix('/profile')->group(function() {
     Route::get('/', [ProfileController::class, 'index']);

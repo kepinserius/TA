@@ -32,6 +32,34 @@
                     </div>
 
                     <div class="mb-4">
+                        <label class="block text-gray-600">Email Umkm</label>
+                        <input type="email" class="w-full border p-3 rounded bg-gray-50" value="{{$data->umkm_email}}" readonly>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2">Virtual Account</label>
+                        <div class="flex space-x-4">
+                            <!-- Select Bank -->
+                            <div class="w-1/2">
+                                <select name="bank_code" id="bank_channel" class="w-full px-2 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-[#42b549]" readonly>
+                                    <option value="">Pilih Bank</option>
+                                    <option value="BCA" {{$data->bank_code == 'BCA' ? 'selected' : ''}}>BCA</option>
+                                    <option value="BNI" {{$data->bank_code == 'BNI' ? 'selected' : ''}}>BNI</option>
+                                    <option value="BRI" {{$data->bank_code == 'BRI' ? 'selected' : ''}}>BRI</option>
+                                    <option value="MANDIRI" {{$data->bank_code == 'MANDIRI' ? 'selected' : ''}}>Mandiri</option>
+                                    <option value="PERMATA" {{$data->bank_code == 'PERMATA' ? 'selected' : ''}}>Permata</option>
+                                    <option value="SAHABAT_SAMPOERNA" {{$data->bank_code == 'SAHABAT_SAMPOERNA' ? 'selected' : ''}}>Sahabat Sampoerna</option>
+                                </select>
+                            </div>
+                    
+                            <!-- Input VA -->
+                            <div class="w-1/2">
+                                <input type="text" id="va_code" name="va_code" value="{{$data->bank_number}}" class="w-full px-2 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-[#42b549]" placeholder="Kode VA" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
                         <label class="block text-gray-600">Nomor HP</label>
                         <input type="text" class="w-full border p-3 rounded bg-gray-50" value="{{$data->contact}}" readonly>
                     </div>

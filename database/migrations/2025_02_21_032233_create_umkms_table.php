@@ -15,10 +15,13 @@ return new class extends Migration
         Schema::create('umkms', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
+            $table->string('xendit_user_id')->nullable();
             $table->string('umkm_name');
             $table->string('image')->nullable();
             $table->text('description')->nullable();
             $table->string('address');
+            $table->string('lat')->nullable();
+            $table->string('lng')->nullable();
             $table->string('contact');
             $table->enum('status', ['approve', 'pending', 'reject'])->default('pending');
             $table->timestamp('created_at')->useCurrent();

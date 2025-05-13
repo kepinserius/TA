@@ -13,16 +13,19 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->string('xendit_reference_id')->nullable();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('umkm_id');
+            $table->foreignId('parent_id')->nullable()->constrained('orders')->onDelete('cascade');
+            $table->foreignId('merchant_id')->nullable()->constrained('umkms')->onDelete('cascade');
             $table->decimal('total', 16, 2)->default(0);
+            $table->decimal('shipping_cost', 16, 2)->default(0);
+            $table->string('payment_method');
             $table->string('address');
-            $table->enum('status', ['process', 'deliver', 'delivered'])->default('process');
+            $table->enum('status', ['payment', 'process', 'deliver', 'delivered'])->default('payment');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'))->nullable();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('umkm_id')->references('id')->on('umkms')->onDelete('cascade');
         });
     }
 

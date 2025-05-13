@@ -12,7 +12,6 @@ use App\Models\ProfileUser;
 class HomeController extends Controller
 {
     public function index() {
-        // dd(session());
         if (session()->has('user')) {
             return view('index', [
                 'product' => Product::where('status', true)->get(), 

@@ -335,9 +335,16 @@
             color: #FF7F27;
             font-weight: 600;
         }
+        #map {
+            height: 400px;
+        }
     </style>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="//unpkg.com/alpinejs" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.0.18/sweetalert2.min.css" integrity="sha512-riZwnB8ebhwOVAUlYoILfran/fH0deyunXyJZ+yJGDyU0Y8gsDGtPHn1eh276aNADKgFERecHecJgkzcE9J3Lg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
-<body>
+<body x-data="modalMap()">
     <!-- Loading animation -->
     <div class="loading-animation" id="loadingAnimation">
         <div class="loading-spinner"></div>
@@ -399,115 +406,340 @@
         
         <div class="max-w-4xl mx-auto checkout-card bg-white p-8" data-aos="fade-up" data-aos-duration="800">
             <h2 class="text-2xl font-semibold mb-6 animate__animated animate__fadeInUp">Checkout</h2>
-
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div class="lg:col-span-2">
-                    <!-- Alamat Pengiriman -->
-                    <div class="mb-6" data-aos="fade-right" data-aos-duration="800">
-                        <h3 class="section-title">Alamat Pengiriman</h3>
-                        <div class="address-card">
-                            <p class="font-semibold text-gray-800">Kevin Gans</p>
-                            <p class="text-gray-600 mt-2">Jl. Raya Candi Blok 6A RT 1 RW 6, Kota Malang</p>
-                            <button class="btn-secondary mt-4 flex items-center group">
-                                <i class="fas fa-map-marker-alt mr-2 group-hover:animate-bounce"></i> Ganti Alamat
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Ringkasan Pesanan -->
-                    <div class="mb-6" data-aos="fade-right" data-aos-duration="800" data-aos-delay="100">
-                        <h3 class="section-title">Pesanan</h3>
-                        <div class="product-row flex items-center gap-4">
-                            <div class="product-img w-16 h-16 rounded overflow-hidden">
-                                <img src="https://via.placeholder.com/80" alt="Produk" class="w-full h-full object-cover">
-                            </div>
-                            <div class="flex-1">
-                                <p class="font-semibold text-gray-800">Jam Tangan Custom Velg Volk</p>
-                                <p class="text-gray-600">1 x Rp115.000</p>
+            <form action="/checkout/order" method="post">
+                @csrf
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2">
+                        <!-- Alamat Pengiriman -->
+                        <div class="mb-6" data-aos="fade-right" data-aos-duration="800">
+                            <h3 class="section-title">Alamat Pengiriman</h3>
+                            <div class="address-card">
+                                <p class="font-semibold text-gray-800">{{$user->name}}</p>
+                                <p id="view-address" class="text-gray-600 mt-2">{{$user->address}}</p>
+                                <input type="text" value="{{$user->lat}}" id="lat" hidden>
+                                <input type="text" value="{{$user->lng}}" id="lng" hidden>
+                                <button type="button" class="btn-secondary mt-4 flex items-center group" @click="openModal">
+                                    <i class="fas fa-map-marker-alt mr-2 group-hover:animate-bounce"></i> Ganti Alamat
+                                </button>
                             </div>
                         </div>
-                    </div>
-
-                    <!-- Opsi Pengiriman -->
-                    <div class="mb-6" data-aos="fade-right" data-aos-duration="800" data-aos-delay="200">
-                        <h3 class="section-title">Pengiriman</h3>
-                        <select class="form-select">
-                            <option>Ekonomi (Rp15.000) - Estimasi 17-19 Feb</option>
-                            <option>Reguler (Rp25.000) - Estimasi 15-17 Feb</option>
-                        </select>
-                    </div>
-
-                    <!-- Metode Pembayaran -->
-                    <div class="mb-6" data-aos="fade-right" data-aos-duration="800" data-aos-delay="300">
-                        <h3 class="section-title">Metode Pembayaran</h3>
-                        <div class="payment-option selected mb-3">
-                            <label class="flex items-center gap-2 cursor-pointer">
-                                <input type="radio" checked class="accent-[#FF7F27]">
-                                <span class="font-semibold flex items-center">
-                                    <i class="fas fa-money-bill-wave text-green-500 mr-2"></i>
-                                    Bayar di Tempat (COD)
-                                </span>
-                            </label>
+    
+                        <!-- Ringkasan Pesanan -->
+                        <div class="mb-6" data-aos="fade-right" data-aos-duration="800" data-aos-delay="100">
+                            <input type="hidden" name="payment" id="inpPayment">
+                            <?php $i = 1; ?>
+                            @foreach ($data as $items)
+                            <input type="hidden" name="splits[{{$items['umkm']['id']}}][umkm]" value="{{$items['umkm']}}">
+                            <input type="hidden" name="splits[{{$items['umkm']['id']}}][address]" value="{{$user->address}}" id="inpAddress">
+                            <div class="geo">
+                                <input type="text" class="lat" value="{{$items['umkm']['lat']}}" hidden>
+                                <input type="text" class="lng" value="{{$items['umkm']['lng']}}" hidden>
+                                <h3 class="section-title">Pesanan {{$i}}</h3>
+                                <div class="row product">
+                                    @foreach ($items['items'] as $item => $value)
+                                    <input type="hidden" name="splits[{{$items['umkm']['id']}}][items][]"
+                                    value="{{json_encode(['id' => $value->product->id, 'qty' => $value->qty, 'price' => $value->product->price])}}"
+                                    >
+                                    <div class="px-2 product-row w-full flex items-center gap-8">
+                                        <div class="product-img w-16 h-16 rounded overflow-hidden">
+                                            <img src="{{asset('uploads/products/'.$value->product->image)}}" alt="Produk" class="w-full h-full object-cover">
+                                        </div>
+                                        <div class="flex-1">
+                                            <p class="font-semibold text-gray-800">{{$value->product->product_name}}</p>
+                                            <p class="text-gray-600 price" data-price="{{$value->product->price * $value->qty}}">{{$value->qty}} x {{formatRupiah($value->product->price)}}</p>
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                </div>
+                                <!-- Opsi Pengiriman -->
+                                <div class="mb-6" data-aos="fade-right" data-aos-duration="800" data-aos-delay="200">
+                                    <h3 class="section-title">Pengiriman</h3>
+                                    <select class="form-select shipping_select" name="splits[{{$items['umkm']['id']}}][shipping_option]">
+                                        <option value="15000">Ekonomi</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <?php $i++?>
+                            @endforeach
                         </div>
-                        <div class="payment-option mb-3">
-                            <label class="flex items-center gap-2 cursor-pointer">
-                                <input type="radio" class="accent-[#FF7F27]">
-                                <span class="font-semibold flex items-center">
-                                    <i class="fas fa-credit-card text-blue-500 mr-2"></i>
-                                    Transfer Bank
-                                </span>
-                            </label>
+    
+                        <!-- Metode Pembayaran -->
+                        <div x-data="{ selectedPayment: false }" class="mb-6" data-aos="fade-right" data-aos-duration="800" data-aos-delay="300">
+                            <h3 class="section-title">Metode Pembayaran</h3>
+                        
+                            <!-- COD -->
+                            <div class="payment-option mb-3">
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="paymentMethod" onclick="check()" value="cod" @click="selectedPayment = false" x-model="selectedPayment" class="accent-[#FF7F27]" required>
+                                    <span class="font-semibold flex items-center">
+                                        <i class="fas fa-money-bill-wave text-green-500 mr-2"></i>
+                                        Bayar di Tempat (COD)
+                                    </span>
+                                </label>
+                            </div>
+                        
+                            <!-- E-Wallet -->
+                            <div class="payment-option mb-3">
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="paymentMethod" onclick="check()" value="ewallet" @click="selectedPayment = true"  x-model="selectedPayment" class="accent-[#FF7F27]" required>
+                                    <span class="font-semibold flex items-center">
+                                        <i class="fas fa-wallet text-purple-500 mr-2"></i>
+                                        E-Wallet
+                                    </span>
+                                </label>
+                        
+                                <!-- Dropdown muncul jika ewallet dipilih -->
+                                <div x-show="selectedPayment" x-transition class="mt-3 ml-6">
+                                    <label for="e_wallet_select" class="block text-sm font-medium mb-1">Pilih E-Wallet:</label>
+                                    <select id="e_wallet_select" onchange="ewallet(event)" class="w-full border rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#FF7F27]">
+                                        <option value="">-- Pilih E-Wallet --</option>
+                                        <option value="ID_DANA">DANA</option>
+                                        <option value="ID_SHOPEEPAY">ShopeePay</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
-                        <div class="payment-option">
-                            <label class="flex items-center gap-2 cursor-pointer">
-                                <input type="radio" class="accent-[#FF7F27]">
-                                <span class="font-semibold flex items-center">
-                                    <i class="fas fa-wallet text-purple-500 mr-2"></i>
-                                    E-Wallet
-                                </span>
-                            </label>
+                    </div>
+    
+                    <!-- Ringkasan Pembayaran -->
+                    <div class="bg-gray-50 p-6 rounded-lg" data-aos="fade-left" data-aos-duration="800">
+                        <h3 class="section-title">Ringkasan Pembayaran</h3>
+                        <div class="summary-item">
+                            <p>Total Harga</p>
+                            <p id="totalProduct">Rp115.000</p>
+                        </div>
+                        <div class="summary-item">
+                            <p>Ongkos Kirim</p>
+                            <p id="ongkir">Rp15.000</p>
+                        </div>
+                        <div class="summary-total">
+                            <p>Total Tagihan</p>
+                            <p class="animate__animated animate__pulse animate__infinite animate__slow" id="total">Rp130.000</p>
+                        </div>
+    
+                        <!-- Tombol Konfirmasi -->
+                        <button class="w-full btn-primary mt-8 group animate__animated animate__pulse animate__infinite animate__slow">
+                            <i class="fas fa-check-circle mr-2 group-hover:animate-bounce"></i> Konfirmasi Pesanan
+                        </button>
+                        
+                        <div class="mt-6 text-xs text-gray-500 text-center">
+                            <p>Dengan menekan tombol di atas, Anda menyetujui</p>
+                            <button type="submit" class="text-[#FF7F27] hover:underline">Syarat dan Ketentuan</button> kami
                         </div>
                     </div>
                 </div>
-
-                <!-- Ringkasan Pembayaran -->
-                <div class="bg-gray-50 p-6 rounded-lg" data-aos="fade-left" data-aos-duration="800">
-                    <h3 class="section-title">Ringkasan Pembayaran</h3>
-                    <div class="summary-item">
-                        <p>Total Harga</p>
-                        <p>Rp115.000</p>
-                    </div>
-                    <div class="summary-item">
-                        <p>Ongkos Kirim</p>
-                        <p>Rp15.000</p>
-                    </div>
-                    <div class="summary-total">
-                        <p>Total Tagihan</p>
-                        <p class="animate__animated animate__pulse animate__infinite animate__slow">Rp130.000</p>
-                    </div>
-
-                    <!-- Tombol Konfirmasi -->
-                    <button class="w-full btn-primary mt-8 group animate__animated animate__pulse animate__infinite animate__slow">
-                        <i class="fas fa-check-circle mr-2 group-hover:animate-bounce"></i> Konfirmasi Pesanan
-                    </button>
-                    
-                    <div class="mt-6 text-xs text-gray-500 text-center">
-                        <p>Dengan menekan tombol di atas, Anda menyetujui</p>
-                        <a href="#" class="text-[#FF7F27] hover:underline">Syarat dan Ketentuan</a> kami
-                    </div>
-                </div>
-            </div>
+            </form>
         </div>
     </div>
 
+    <div x-show="open" x-transition class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div @click.outside="closeModal" class="bg-white rounded-lg shadow-lg w-11/12 md:w-2/3 lg:w-1/2 p-6">
+          
+          <h2 class="text-2xl font-bold mb-4">Tentukan Alamat</h2>
+    
+          <!-- Map -->
+          <div id="map" class="rounded mb-4"></div>
+    
+          <!-- Form Alamat -->
+          <div class="mb-4">
+            <label class="block text-gray-700 mb-2">Alamat Rumah</label>
+            <input type="text" x-model="address" class="w-full border p-3 rounded focus:ring-2 focus:ring-blue-400" placeholder="Masukkan alamat rumah">
+          </div>
+    
+          <!-- Action Buttons -->
+          <div class="flex justify-end space-x-2">
+            <button @click="closeModal" class="px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-500">Batal</button>
+            <button @click="saveLocation" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Simpan</button>
+          </div>
+        </div>
+      </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
+
+        const ewallet = (event) => {
+            document.getElementById('inpPayment').value = event.target.value
+        }
+
+        const check = () => {
+            const radio = document.getElementsByName('paymentMethod')
+            const inpPayment = document.getElementById('inpPayment')
+            radio.forEach(element => {
+                if (element.checked) {
+                    if (element.value == 'cod') {
+                        inpPayment.value = 'cod'
+                    }
+                    document.getElementById('e_wallet_select').required = true
+                }
+            });
+
+        }
+
+        const setDistance = async (lat1, lng1, lat2, lng2) => {
+            let apiKey = "5b3ce3597851110001cf62483babf501c4a04dc1a1546a31cfa7f743"
+
+            const url = `https://api.openrouteservice.org/v2/directions/driving-car?api_key=${apiKey}&start=${lng1},${lat1}&end=${lng2},${lat2}`
+
+            let total = 0
+
+            try {
+                const response = await fetch(url)
+                const data = await response.json()
+                const distance = data.features[0].properties.summary.distance
+
+                if (distance < 500) {
+                    total = 1000
+                    return total
+                } else {
+                    total = 3000
+
+                    const sisa = distance - 500
+                    const pembulatan = Math.ceil( sisa / 500 )
+                    total = pembulatan * 2000
+                    return total
+                }
+            } catch (error) {
+                console.error('error: ', error)
+            }
+        }
+
+        const setShipping = async () => {
+            let totalOngkir = 0 
+            const geoElements = document.querySelectorAll('.geo')
+            const promises = Array.from(geoElements).map( async (element) => {
+                let lat1 = element.querySelector('.lat').value
+                let lng1 = element.querySelector('.lng').value
+                let lat2 = document.getElementById('lat').value
+                let lng2 = document.getElementById('lng').value
+                let shipping = element.querySelector('.shipping_select')
+
+                const priceShipping = await setDistance(lat1, lng1, lat2, lng2)
+
+                totalOngkir += parseInt(priceShipping)
+
+                shipping.options[0].text = `Ekonomi (Rp${formatNumber(priceShipping)})`
+                shipping.options[0].value = priceShipping
+
+            })
+            
+            await Promise.all(promises)
+            document.getElementById('ongkir').textContent = `Rp${formatNumber(totalOngkir)}`
+
+            return totalOngkir
+        }
+
+        setShipping()
+
+        function modalMap() {
+            return {
+                open: false,
+                map: null,
+                marker: null,
+                latitude: '',
+                longitude: '',
+                address: '',
+
+                openModal() {
+                    this.open = true;
+                    this.$nextTick(() => {
+                        if (!this.map) {
+                            this.initMap();
+                        } else {
+                            setTimeout(() => {
+                                this.map.invalidateSize();
+                            }, 300);
+                        }
+                    });
+                },
+
+                closeModal() {
+                    this.open = false;
+                },
+
+            initMap() {
+                this.map = L.map('map').setView([{{$user->lat}}, {{$user->lng}}], 13);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(this.map);
+
+                this.marker = L.marker([{{$user->lat}}, {{$user->lng}}]).addTo(this.map);
+
+                this.map.on('click', (e) => {
+                    const lat = e.latlng.lat;
+                    const lng = e.latlng.lng;
+
+                    this.latitude = lat.toFixed(6);
+                    this.longitude = lng.toFixed(6);
+
+                    if (this.marker) {
+                        this.map.removeLayer(this.marker);
+                    }
+                    this.marker = L.marker([lat, lng]).addTo(this.map);
+                });
+
+                setTimeout(() => {
+                    this.map.invalidateSize();
+                }, 300);
+            },
+
+            async saveLocation() {
+                if (!this.latitude || !this.longitude || !this.address) {
+                    alert('Lengkapi alamat dan pilih lokasi dulu.');
+                    return;
+                }
+                document.getElementById('view-address').textContent = this.address
+                document.getElementById('inpAddress').value = this.address
+                document.getElementById('lat').value = this.latitude
+                document.getElementById('lng').value = this.longitude
+
+                await setTotal()
+
+                this.closeModal();
+            }
+        }
+    }
+
         // Initialize AOS
         AOS.init({
             once: true,
             duration: 800,
         });
         
+        const setTotal = async () => {
+            let total = 0
+
+            const totalProduct = totalPrice()
+            const totalOngkir = await setShipping()
+
+            total += (totalProduct + totalOngkir)
+
+            document.getElementById('total').textContent = `Rp${formatNumber(total)}`
+        }
+
+        
+        const totalPrice = () => {
+            let total = 0
+
+            document.querySelectorAll('.product').forEach(element => {
+                element.querySelectorAll('.product-row').forEach(e => {
+                    let price = parseInt(e.querySelector('.price').getAttribute('data-price'))
+                    total += price
+                })
+            });
+            document.getElementById('totalProduct').textContent = `Rp${formatNumber(total)}`
+            return total
+        }
+        
+        
+        totalPrice()
+        
+        setTotal()
+
+        function formatNumber(number) {
+            return new Intl.NumberFormat('id-ID').format(number);
+        }
+
         // Hide loading animation after page load
         window.addEventListener('load', function() {
             setTimeout(function() {

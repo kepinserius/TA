@@ -13,7 +13,9 @@ class Umkm extends Model
      */
     protected $fillable = [
         'user_id',
+        'xendit_user_id',
         'umkm_name',
+        'umkm_email',
         'description',
         'address',
         'contact'
